@@ -1,7 +1,7 @@
 # How to use
 
-You can find how to use the file at "example_usage.py"
+You can find how to create embeddings from the CSV file at "example_usage.py"
 
-Also, do
+Don't forget to do
 
 `pip install -r requirements.txt`
