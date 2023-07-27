@@ -21,72 +21,61 @@ def get_info(
         messages=[{"role":"user", "content":prompt}],
         temperature=temperature
     )
+    
     response = response.get("choices")[0]["message"]["content"]
+    
     response_dict = json.loads(response)
     return response_dict
 
 def get_prompt(input: str) -> str:
     prompt = f"""
-    Sen eğitim videoları satan bir şirket için çalışan bir \
-    Yapay Zeka sohbet botusun. Bu eğitim videoları birçok \
-    alanı kapsıyor. Şirketin eğitim videolarından faydalanmak \
-    isteyen bir müşteriye neye ihtiyacı olduğu soruluyor. \
-    Senden istediğimiz ise müşterinin verdiği \
-    bu cevaptan bize bazı önemli bilgileri çıkarman. \
-    
+    Eğitim videoları satan bir şirket düşün, bu videolardan 
+    yararlanmak isteyen bir müşteriye neye ihtiyacı olduğu soruluyor. 
+    Senden istediğimiz ise müşterinin verdiği 
+    bu cevaptan bize bazı önemli bilgileri çıkarman.
+
     Müşterinin cevabı: {input}
 
     Şu bilgileri çıkar: 
 
-    Müşterinin ihtiyacı: Müşterinin cevabından neye ihtiyacı \
-    olduğunu onun ağzından aktaran bir cümle kur. Örneğin, \
-    müşteri 'Son zamanlarda oldukça stresliyim.' diyorsa, \
-    'Stres yönetimi ile ilgili eğitimlere ihtiyacım var.' yaz. \
-    Örneğin, müşteri 'Zaman yönetiminde sıkıntı yaşıyorum.' dediyse \
-    'Zamanı nasıl daha iyi yönetebilirime yönelik eğitime ihtiyacım \
-    var.' yaz. Örneğin, müşteri 'Şirketim benden yöneticilikle ilgili \
-    daha fazla şey öğrenmemi istedi.' diyorsa, 'Yöneticilik alanında \
-    eğitimlere ihtiyacım var.' yaz. Eğer müşteri verdiği cevapta \
-    ihtiyacını veya sorununu belirtmemişse, '-' yaz. Örneğin müşteri \
-    'Bugün hava sence de güzel değil mi?' dediyse, '-' yaz.
+    Müşterinin ihtiyacı: Müşterinin cevabından neye ihtiyacı 
+    olduğunu onun ağzından aktaran bir cümle kur. Örneğin, 
+    müşteri 'Son zamanlarda oldukça stresliyim.' diyorsa, 
+    'Stres yönetimi ile ilgili eğitimlere ihtiyacım var.' yaz. 
+    Eğer müşteri verdiği cevapta ihtiyacını veya sorununu 
+    belirtmemişse, '-' yaz.
 
-    Eğitimin öğretmeni: Eğitimi veren kişinin ismini ve soy ismini \
-    yaz. Eğer bir isimden bahsedilmemişse, cevabında sadece '-' yaz.
+    Minimum eğitim süresi: Eğitim videosunun dakika olarak en az ne kadar süre 
+    uzunlukta olması gerektiğini yaz. Örneğin '1-2 saatlik 
+    videolar istiyorum.' dediyse '60' yaz. Müşteri alt sınır belirtmemişse 
+    '0' yaz. Eğer eğitim süresine dair bir 
+    bilgi verilmediyse, '-' yaz. Mesela 'Videoların ne kadar 
+    sürdüğü önemli değil.' dediyse '-' yaz. Müşteri eğitim süresi için 
+    spesifik bir süre belirttiyse, o süreyi yaz. Örneğin '50 dakikalık eğitimler istiyorum.' 
+    dediyse, '50' yaz.
 
-    Minimum eğitim süresi: Eğitim videosunun dakika olarak en az ne kadar süre \
-    uzunlukta olması gerektiğini yaz. Örneğin müşteri '1-2 saatlik \
-    videolar istiyorum.' dediyse '60' yaz. Örneğin müşteri 'En az 3 saatlik \
-    videolar istiyorum.' dediyse '180' yaz. Örneğin müşteri 'En çok 3 saatlik \
-    videolar istiyorum.' dediyse '0' yaz. Eğer müşteri eğitim süresine dair bir \
-    bilgi vermediyse, '-' yaz. Örneğin müşteri 'Videoların ne kadar \
-    sürdüğü önemli değil.' dediyse '-' yaz. Müşteri eğitim süresi için \
-    spesifik bir süre belirttiyse, o süreyi yaz. Örneğin '50 dakikalık eğitimler istiyorum.' \
-    dediyse, '50' yaz. Örneğin, müşteri '20 dakikalık eğitimler öner.' dediyse, \
-    '20' yaz.
+    Maksimum eğitim süresi: Eğitim videosunun dakika olarak en çok ne kadar süre 
+    uzunlukta olması gerektiğini yaz. Örneğin müşteri '1-2 saatlik 
+    videolar istiyorum.' dediyse '120' yaz. Örneğin 'En çok 3 saatlik 
+    videolar istiyorum.' dediyse '180' yaz. Müşteri alt sınır belirtmemişse 
+    'inf' yaz. Eğer eğitim süresine dair bir 
+    bilgi verilmediyse, '-' yaz. Müşteri eğitim süresi için 
+    spesifik bir süre belirttiyse, o süreyi yaz. Örneğin '50 dakikalık eğitimler istiyorum.' 
+    dediyse, '50' yaz.
 
-    Maksimum eğitim süresi: Eğitim videosunun dakika olarak en çok ne kadar süre \
-    uzunlukta olması gerektiğini yaz. Örneğin müşteri '1-2 saatlik \
-    videolar istiyorum.' dediyse '120' yaz. Örneğin müşteri 'En çok 3 saatlik \
-    videolar istiyorum.' dediyse '180' yaz. Eğer müşteri eğitim süresine dair bir \
-    bilgi vermediyse, '-' yaz. Örneğin müşteri 'Videoların ne kadar \
-    sürdüğü önemli değil.' dediyse '-' yaz. Müşteri eğitim süresi için \
-    spesifik bir süre belirttiyse, o süreyi yaz. Örneğin '50 dakikalık eğitimler istiyorum.' \
-    dediyse, '50' yaz. Örneğin, müşteri '20 dakikalık eğitimler öner.' dediyse, \
-    '20' yaz.
-
-    Eğitim seviyesi: Eğitim videosunun hangi seviyede olması gerektiğini yaz. \
-    3 seviye var: Başlangıç, Orta ve İleri. Örneğin müşteri 'İleri seviyede eğitimler \
-    istiyorum.' dediyse 'İleri' yaz. Örneğin müşteri 'Basit eğitimler istiyorum.' \
-    dediyse 'Başlangıç' yaz. Eğer müşteri cevabında eğitim seviyesinden bahsetmiyorsa \
-    '-' yaz. Örneğin müşteri 'Eğitim videolarının ne seviyede olduğu umrumda değil.' \
-    dediyse '-' yaz.
+    Eğitim seviyesi: Eğitim videosunun hangi seviyede olması gerektiğini yaz. 
+    3 seviye var: Başlangıç, Orta ve İleri. Örneğin müşteri 'İleri seviyede eğitimler 
+    istiyorum.' dediyse 'İleri' yaz. Örneğin müşteri 'Basit eğitimler istiyorum.' 
+    dediyse 'Başlangıç' yaz. Eğer müşteri cevabında eğitim seviyesinden bahsetmiyorsa 
+    '-' yaz.
 
     Çıkardığın bilgileri JSON olarak şu 'key'lerle formatla:
     need
-    teacher
     min_time
     max_time
     level
+
+    Lütfen sadece JSON formatında oluşturduğun data'yı yaz.
     """
 
     return prompt
