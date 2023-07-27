@@ -5,7 +5,7 @@ from dotenv import load_dotenv, find_dotenv
 
 def get_info(
         input: str, 
-        path: str=None, 
+        path: str, 
         model: str="gpt-4", 
         temperature: float=0.0
     ) -> dict:
