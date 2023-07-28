@@ -11,7 +11,7 @@ def get_info(
     ) -> dict:
 
     """
-    Extracts information such as user's need, minimum and time for the education program and it's level.
+    Extracts information such as user's need, min and max time for the education program and it's level.
 
     input: string to extract information from
 
