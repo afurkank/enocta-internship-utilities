@@ -10,6 +10,19 @@ def get_info(
         temperature: float=0.0
     ) -> dict:
 
+    """
+    Extracts information such as user's need, minimum and time for the education program and it's level.
+
+    input: string to extract information from
+
+    path: path to the .env file where your OpenAI API key is stored
+
+    model: which model of OpenAI should extract the information. 'gpt-4' is usually the best, although a bit slower
+
+    temperature: temperature parameter for the LLM model
+
+    """
+
     _ = load_dotenv(find_dotenv(filename=path))
 
     openai.api_key = os.environ['OPENAI_API_KEY']
