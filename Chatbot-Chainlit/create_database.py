@@ -7,7 +7,7 @@ from dotenv import load_dotenv, find_dotenv
 
 from chromadb.utils import embedding_functions
 
-_ = load_dotenv(find_dotenv(filename="configvars.env"))
+_ = load_dotenv(find_dotenv(filename="path/to/your/.env/file"))
 
 openai.api_key = os.environ['OPENAI_API_KEY']
 
@@ -22,7 +22,7 @@ def read_csv_file(file_path):
     return data_list
 
 def get_collection():
-    file_path = "merged_data.csv"
+    file_path = "path/to/your/csv/file"
     data = read_csv_file(file_path)[1:]
 
     idx = []
