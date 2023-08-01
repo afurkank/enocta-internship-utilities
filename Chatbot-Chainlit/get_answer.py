@@ -8,7 +8,9 @@ from create_database import get_collection
 from dotenv import load_dotenv, find_dotenv
 from chromadb.utils import embedding_functions
 
-_ = load_dotenv(find_dotenv(filename="configvars.env"))
+path = "path/to/your/.env/file"
+
+_ = load_dotenv(find_dotenv(filename=path))
 
 openai.api_key = os.environ['OPENAI_API_KEY']
 
@@ -25,7 +27,7 @@ def get_answer(
 
     output_dict = get_info(
         input=overall_prompt,
-        path="configvars.env"
+        path=path
     )
 
     need = output_dict["need"]
