@@ -1,3 +1,6 @@
+
+![chatbot](https://github.com/afurkank/utilities/assets/62884181/a12cce04-9cdf-4094-9d56-758b88214af4)
+
 # How to use
 
 First, do
